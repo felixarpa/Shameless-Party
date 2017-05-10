@@ -1,4 +1,4 @@
-package felixarpa.shamelessapp;
+package felixarpa.shamelessapp.utils;
 
 import android.annotation.SuppressLint;
 
@@ -22,6 +22,18 @@ public class DateUtil {
     public static String getDay(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(date);
+    }
+
+    public static String getDate(long date) {
+        return getDate(new Date(date));
+    }
+
+    public static String getHour(long date) {
+        return getHour(new Date(date));
+    }
+
+    public static String getDay(long date) {
+        return getDay(new Date(date));
     }
 
     public static Date getDate(String date) {

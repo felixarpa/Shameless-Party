@@ -1,4 +1,4 @@
-package felixarpa.shamelessapp;
+package felixarpa.shamelessapp.domain.model;
 
 import io.realm.RealmObject;
 
