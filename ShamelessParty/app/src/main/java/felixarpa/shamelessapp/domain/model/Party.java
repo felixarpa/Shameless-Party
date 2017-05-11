@@ -107,16 +107,22 @@ public class Party extends RealmObject {
 
     @Override
     public String toString() {
-        String finalPaymentString = ".";
-        if (finalPayment < 0.0f) {
-            finalPaymentString += " You paid: " + finalPayment + "€.";
+
+        String stringEnd = ".";
+        if (ngo != null) {
+            stringEnd = " to " + ngo.toString();
+            if (finalPayment < 0.0f) {
+                stringEnd += ". You paid: " + finalPayment + "€.";
+            }
         }
         return "Party " + title
                 + " at " + DateUtil.getHour(hour)
                 + " giving " + moneyAmount + "€ every "
-                + minutes +" minutes to "
-                + ngo.toString() + finalPaymentString;
+                + minutes + " minutes" + stringEnd;
     }
 
 
+    public boolean isGoingOn() {
+        return !canceled && finalPayment < 0.0f;
+    }
 }
