@@ -3,10 +3,10 @@ package felixarpa.shamelessapp.domain.data;
 import java.util.ArrayList;
 import java.util.Date;
 
-import felixarpa.shamelessapp.domain.controller.AlreadyPartyingException;
-import felixarpa.shamelessapp.domain.controller.InvalidAmountException;
-import felixarpa.shamelessapp.domain.controller.NoSuchPartyGoingOnException;
-import felixarpa.shamelessapp.domain.controller.NoSuchPartyThenException;
+import felixarpa.shamelessapp.domain.controller.exception.AlreadyPartyingException;
+import felixarpa.shamelessapp.domain.controller.exception.InvalidAmountException;
+import felixarpa.shamelessapp.domain.controller.exception.NoSuchPartyGoingOnException;
+import felixarpa.shamelessapp.domain.controller.exception.NoSuchPartyThenException;
 import felixarpa.shamelessapp.domain.controller.PartyController;
 import felixarpa.shamelessapp.domain.model.NonGovernmentalOrganization;
 import felixarpa.shamelessapp.domain.model.Party;
