@@ -15,4 +15,5 @@
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
     <string name="plus_one_image_description">plus one party image</string>
+    <string name="first_back_message">Press back again to exit</string>
 </resources>

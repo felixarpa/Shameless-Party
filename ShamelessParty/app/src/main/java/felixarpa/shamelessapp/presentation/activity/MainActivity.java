@@ -50,12 +50,12 @@ public class MainActivity extends ShamelessActivity implements
     private boolean secondBack = false;
 
     @Override
-    public void onBack() {
+    public void onBackPressed() {
         if (secondBack) {
             finish();
         } else {
             secondBack = true;
-            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.first_back_message, Toast.LENGTH_SHORT).show();
             new ExitAppTimer() {
                 @Override
                 public void onFinish() {
@@ -99,12 +99,12 @@ public class MainActivity extends ShamelessActivity implements
 
     @Override
     public void tryToCancel() {
-
+        Toast.makeText(this, "tryToCancel", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showDistanceHome() {
-
+        Toast.makeText(this, "showDistanceHome", Toast.LENGTH_SHORT).show();
     }
 
 
