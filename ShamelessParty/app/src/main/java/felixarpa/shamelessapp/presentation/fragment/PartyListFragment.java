@@ -9,10 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import felixarpa.shamelessapp.R;
+import felixarpa.shamelessapp.domain.model.Party;
 import felixarpa.shamelessapp.presentation.adapter.PartyRecyclerViewAdapter;
-import felixarpa.shamelessapp.presentation.dummy.DummyContent;
-import felixarpa.shamelessapp.presentation.dummy.DummyContent.DummyItem;
 
 /**
  * A fragment representing a list of Items.
@@ -68,7 +69,7 @@ public class PartyListFragment extends ShamelessFragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
             }
-            recyclerView.setAdapter(new PartyRecyclerViewAdapter(DummyContent.ITEMS, listener));
+            recyclerView.setAdapter(new PartyRecyclerViewAdapter(new ArrayList<Party>(), listener));
         }
         return view;
     }
@@ -112,6 +113,6 @@ public class PartyListFragment extends ShamelessFragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Party item);
     }
 }

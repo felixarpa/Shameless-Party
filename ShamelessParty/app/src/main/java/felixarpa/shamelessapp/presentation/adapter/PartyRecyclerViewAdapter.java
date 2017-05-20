@@ -9,20 +9,20 @@ import android.widget.TextView;
 import java.util.List;
 
 import felixarpa.shamelessapp.R;
-import felixarpa.shamelessapp.presentation.dummy.DummyContent.DummyItem;
+import felixarpa.shamelessapp.domain.model.Party;
 import felixarpa.shamelessapp.presentation.fragment.PartyListFragment.OnListFragmentInteractionListener;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Party} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class PartyRecyclerViewAdapter extends RecyclerView.Adapter<PartyRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<Party> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public PartyRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public PartyRecyclerViewAdapter(List<Party> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -37,8 +37,8 @@ public class PartyRecyclerViewAdapter extends RecyclerView.Adapter<PartyRecycler
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        // holder.mIdView.setText(mValues.get(position).id);
+        // holder.mContentView.setText(mValues.get(position).content);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +46,7 @@ public class PartyRecyclerViewAdapter extends RecyclerView.Adapter<PartyRecycler
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    // mListener.onListFragmentInteraction(holder.mItem);
                 }
             }
         });
@@ -61,7 +61,7 @@ public class PartyRecyclerViewAdapter extends RecyclerView.Adapter<PartyRecycler
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public Party mItem;
 
         public ViewHolder(View view) {
             super(view);

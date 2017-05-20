@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ShamelessApp</string>
+    <string name="app_name">Shameless Party</string>
 
     <string name="init_error_message">Copyright software does not want you to be a nice person. You cannot use this App in this phone, and we do not know why. Sorry.</string>
     <string name="init_error_ok">Ok</string>
@@ -16,4 +16,11 @@
     <string name="yes">Yes</string>
     <string name="plus_one_image_description">plus one party image</string>
     <string name="first_back_message">Press back again to exit</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="donating_ngo">DONATING NGO</string>
+    <string name="date_hint">DATE</string>
+    <string name="time_hint">TIME</string>
+    <string name="party_button">PARTY!</string>
 </resources>

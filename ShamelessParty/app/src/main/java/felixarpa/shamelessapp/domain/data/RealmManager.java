@@ -30,7 +30,7 @@ public class RealmManager {
             Realm.init(shamelessActivity);
             SharedPreferences.Editor editor = shamelessActivity.getEditor();
             editor.putBoolean(C.INIT_BOOL, true);
-            editor.putLong(C.INIT_DATE, new Date().getTime());
+            editor.putLong(C.INIT_DATE, System.currentTimeMillis());
             Realm.getDefaultInstance().executeTransactionAsync(
                     new Transaction() {
                         @Override
@@ -41,13 +41,12 @@ public class RealmManager {
                             NonGovernmentalOrganization medecinsSansFrontieres = realm.createObject(NonGovernmentalOrganization.class);
                             NonGovernmentalOrganization worldWildlifeFound = realm.createObject(NonGovernmentalOrganization.class);
 
-                            greenpeace.setName("Greenpeace");
-                            amnesty.setName("Amnesty");
-                            unicef.setName("UNICEF");
-                            medecinsSansFrontieres.setName("Médecins Sans Frontières");
-                            worldWildlifeFound.setName("World Wildlife Found");
+                            greenpeace.setName(NonGovernmentalOrganization.GREENPEACE);
+                            amnesty.setName(NonGovernmentalOrganization.AMNESTY);
+                            unicef.setName(NonGovernmentalOrganization.UNICEF);
+                            medecinsSansFrontieres.setName(NonGovernmentalOrganization.MEDECINS_SANS_FRONTIERES);
+                            worldWildlifeFound.setName(NonGovernmentalOrganization.WWF);
 
-                            // TODO: Image String Base64
                         }
                     }, success, error
             );

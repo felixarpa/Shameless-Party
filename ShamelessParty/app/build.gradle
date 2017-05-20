@@ -23,17 +23,18 @@ android {
 
 dependencies {
 
-    // Set this dependency to use JUnit 4 rules
-    // Set this dependency to build and run Espresso tests
-    // Set this dependency to build and run UI Automator tests
-
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:25.3.0'
     compile 'com.android.support:support-vector-drawable:25.3.0'
     compile 'com.android.support:support-v4:25.3.0'
     compile 'com.android.support:recyclerview-v7:25.3.0'
-    compile 'com.google.android.gms:play-services-plus:10.2.1'
+
+    compile 'com.google.android.gms:play-services:8.4.0'
+
+    compile 'com.github.citux:datetimepicker:0.2.0'
+
+
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'

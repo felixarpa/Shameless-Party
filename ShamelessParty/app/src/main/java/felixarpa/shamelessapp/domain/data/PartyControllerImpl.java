@@ -45,8 +45,8 @@ public class PartyControllerImpl implements PartyController {
     @Override
     public void commitParty() throws NoSuchPartyGoingOnException {
         Party party = getParty();
-        long currentTime = new Date().getTime();
-        int minutes = (int) ((currentTime - party.getHour()) / 60000);
+        long now = System.currentTimeMillis();
+        int minutes = (int) ((now - party.getHour()) / 60000);
         float finalPayment = minutes * party.getMoneyAmount();
         party.setFinalPayment(finalPayment);
 
@@ -79,7 +79,7 @@ public class PartyControllerImpl implements PartyController {
 
     @Override
     public Party getPartyAt(Date date) throws NoSuchPartyThenException {
-        long now = new Date().getTime();
+        long now = System.currentTimeMillis();
         ArrayList<Party> parties = getAllParties();
         for (Party party : parties) {
             if (party.getHour() == now) {

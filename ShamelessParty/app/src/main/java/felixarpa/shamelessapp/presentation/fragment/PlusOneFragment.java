@@ -57,7 +57,7 @@ public class PlusOneFragment extends ShamelessFragment implements View.OnClickLi
         listener.requestPartyCreation();
     }
 
-    public interface OnPlusOneFragmentInteractionListener extends OnInitialFragmentInteractionListener {
+    public interface OnPlusOneFragmentInteractionListener {
         void requestPartyCreation();
     }
 

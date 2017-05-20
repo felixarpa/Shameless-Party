@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import felixarpa.shamelessapp.R;
+import felixarpa.shamelessapp.domain.controller.exception.NoSuchPartyGoingOnException;
+import felixarpa.shamelessapp.domain.model.Party;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnPartyInitialFragmentInteraction} interface
+ * {@link OnPartyFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link PartyFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -22,7 +24,7 @@ public class PartyFragment extends ShamelessFragment {
 
     private long partyDate;
 
-    private OnPartyInitialFragmentInteraction mListener;
+    private OnPartyFragmentInteractionListener mListener;
 
     public PartyFragment() {
         // Required empty public constructor
@@ -55,17 +57,19 @@ public class PartyFragment extends ShamelessFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_party, container, false);
+        View view = inflater.inflate(R.layout.fragment_party, container, false);
+
+        return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnPartyInitialFragmentInteraction) {
-            mListener = (OnPartyInitialFragmentInteraction) context;
+        if (context instanceof OnPartyFragmentInteractionListener) {
+            mListener = (OnPartyFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnPartyInitialFragmentInteraction");
+                    + " must implement OnPartyFragmentInteractionListener");
         }
     }
 
@@ -80,9 +84,10 @@ public class PartyFragment extends ShamelessFragment {
         return id == R.id.navigation_party;
     }
 
-    public interface OnPartyInitialFragmentInteraction extends OnInitialFragmentInteractionListener {
+    public interface OnPartyFragmentInteractionListener {
         void tryToCancel();
         void showDistanceHome();
+        Party getParty() throws NoSuchPartyGoingOnException;
     }
 
 }
