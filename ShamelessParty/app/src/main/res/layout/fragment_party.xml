@@ -1,9 +1,17 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primaryDark"
     tools:context="felixarpa.shamelessapp.presentation.fragment.PartyFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/distance_text"
+        android:textColor="@color/white"
+        android:text="100m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 
-</FrameLayout>
+
+</RelativeLayout>

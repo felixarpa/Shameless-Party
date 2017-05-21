@@ -8,6 +8,7 @@ android {
         applicationId "felixarpa.shamelessapp"
         minSdkVersion 18
         targetSdkVersion 25
+        multiDexEnabled = true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -31,6 +32,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.0'
 
     compile 'com.google.android.gms:play-services:8.4.0'
+    compile 'com.google.android.gms:play-services-location:8.4.0'
+    compile 'com.google.android.gms:play-services-maps:8.4.0'
 
     compile 'com.github.citux:datetimepicker:0.2.0'
 

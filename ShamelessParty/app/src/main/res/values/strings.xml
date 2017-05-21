@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Shameless Party</string>
+    <string name="google_app_id">shameless-party-1495292389388</string>
 
     <string name="init_error_message">Copyright software does not want you to be a nice person. You cannot use this App in this phone, and we do not know why. Sorry.</string>
     <string name="init_error_ok">Ok</string>

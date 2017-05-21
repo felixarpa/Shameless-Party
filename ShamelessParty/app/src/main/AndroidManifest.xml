@@ -23,7 +23,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAu8FKR_xJRl8b3m_uEowaUGYEHNXhaXXw"/>
+            android:value="AIzaSyA_aHdNHbWteAyQtah-PNeSul50Q2PLcaY"/>
         <activity android:name=".presentation.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -31,8 +31,8 @@ public class Party extends RealmObject {
 
     public static final double INVALID_LATLNG = 200.0;
 
-    public static final double LATITUDE_MIN = -89.98155760646617;
-    public static final double LATITUDE_MAX = 89.99346179538875;
+    public static final double LATITUDE_MIN = -89.981557;
+    public static final double LATITUDE_MAX = 89.993461;
 
     public static final double LONGITUDE_MIN = -180.0;
     public static final double LONGITUDE_MAX = 180.0;

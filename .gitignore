@@ -39,4 +39,5 @@ captures/
 # Keystore files
 *.jks
 
+ShamelessParty/app/google-services.json
 ShamelessParty/app/src/main/java/felixarpa/shamelessapp/utils/K.java

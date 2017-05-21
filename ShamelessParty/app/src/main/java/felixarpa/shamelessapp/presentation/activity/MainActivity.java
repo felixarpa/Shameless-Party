@@ -1,10 +1,15 @@
 package felixarpa.shamelessapp.presentation.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -15,8 +20,11 @@ import android.widget.Toast;
 
 import com.android.datetimepicker.date.DatePickerDialog;
 import com.android.datetimepicker.time.TimePickerDialog;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
@@ -42,9 +50,9 @@ public class MainActivity extends ShamelessActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,
         PlusOneFragment.OnPlusOneFragmentInteractionListener,
         PartyFragment.OnPartyFragmentInteractionListener,
-        CreatePartyFragment.OnCreateFragmentInteractionListener {
+        CreatePartyFragment.OnCreateFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    // region activity
+    // region Activity
 
     public static final int PLACE_PICKER_REQUEST = 1;
     private FragmentManager manager;
@@ -52,6 +60,7 @@ public class MainActivity extends ShamelessActivity implements
     private Party party;
     private Calendar calendar;
     private boolean secondBack = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +130,22 @@ public class MainActivity extends ShamelessActivity implements
         }
     }
 
+    @Override
+    protected void onStart() {
+        if (googleApiClient != null) {
+            googleApiClient.connect();
+        }
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        if (googleApiClient != null) {
+            googleApiClient.disconnect();
+        }
+        super.onStop();
+    }
+
     // endregion
 
     // region Plus One Fragment
@@ -144,12 +169,77 @@ public class MainActivity extends ShamelessActivity implements
     }
 
     @Override
-    public Party getParty() throws NoSuchPartyGoingOnException {
+    public Party getParty() {
         if (party == null) {
-            party = PartyControllerImpl.getInstance().getParty();
+            try {
+                return PartyControllerImpl.getInstance().getParty();
+            } catch (NoSuchPartyGoingOnException e) {
+                fragment = new PlusOneFragment();
+                replace();
+                return null;
+            }
+        } else {
+            return party;
         }
-        return party;
     }
+
+    private GoogleApiClient googleApiClient;
+    private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 2;
+    private static final int MY_PERMISSIONS_REQUEST_COARSE_LOCATION = 3;
+
+    @Override
+    public void startLocationService() {
+        if (googleApiClient == null) {
+            googleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+            googleApiClient.connect();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_FINE_LOCATION:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getLocation();
+                    // granted
+                } else {
+                    // denied
+                }
+                break;
+
+            case MY_PERMISSIONS_REQUEST_COARSE_LOCATION:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getLocation();
+                    // granted
+                } else {
+                    // denied
+                }
+                break;
+        }
+    }
+
+    private Location location = null;
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        getLocation();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
+
 
     // endregion
 
@@ -288,12 +378,48 @@ public class MainActivity extends ShamelessActivity implements
         }
     }
 
+    // endregion
 
-    // region private methods
+    // region activity methods
 
     private void replace() {
+        googleApiClient = null;
         manager.beginTransaction().replace(R.id.content, fragment).commit();
     }
+
+    public void getLocation() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                // explanation needed
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+
+            }
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                // explanation needed
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_COARSE_LOCATION);
+            }
+        } else {
+            location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+            if (location != null) {
+                ((PartyFragment) fragment).displayDistanceFrom(location);
+            }
+        }
+    }
+
+
 
     // endregion
 }

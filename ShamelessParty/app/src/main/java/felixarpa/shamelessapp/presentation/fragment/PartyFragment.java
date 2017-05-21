@@ -1,14 +1,15 @@
 package felixarpa.shamelessapp.presentation.fragment;
 
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import felixarpa.shamelessapp.R;
-import felixarpa.shamelessapp.domain.controller.exception.NoSuchPartyGoingOnException;
 import felixarpa.shamelessapp.domain.model.Party;
 
 /**
@@ -24,7 +25,9 @@ public class PartyFragment extends ShamelessFragment {
 
     private long partyDate;
 
-    private OnPartyFragmentInteractionListener mListener;
+    private OnPartyFragmentInteractionListener listener;
+    private Party party;
+    private TextView distanceText;
 
     public PartyFragment() {
         // Required empty public constructor
@@ -59,6 +62,10 @@ public class PartyFragment extends ShamelessFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_party, container, false);
 
+        party = listener.getParty();
+        distanceText = (TextView) view.findViewById(R.id.distance_text);
+
+        listener.startLocationService();
         return view;
     }
 
@@ -66,7 +73,7 @@ public class PartyFragment extends ShamelessFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnPartyFragmentInteractionListener) {
-            mListener = (OnPartyFragmentInteractionListener) context;
+            listener = (OnPartyFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnPartyFragmentInteractionListener");
@@ -76,7 +83,7 @@ public class PartyFragment extends ShamelessFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        listener = null;
     }
 
     @Override
@@ -84,10 +91,19 @@ public class PartyFragment extends ShamelessFragment {
         return id == R.id.navigation_party;
     }
 
+    public void displayDistanceFrom(Location currentLocation) {
+        Location partyLocation = new Location("Party location");
+        partyLocation.setLatitude(party.getLatitude());
+        partyLocation.setLongitude(party.getLongitude());
+        double distance = currentLocation.distanceTo(partyLocation);
+        distanceText.setText(String.format("%f", distance));
+    }
+
     public interface OnPartyFragmentInteractionListener {
+        void startLocationService();
         void tryToCancel();
         void showDistanceHome();
-        Party getParty() throws NoSuchPartyGoingOnException;
+        Party getParty();
     }
 
 }
