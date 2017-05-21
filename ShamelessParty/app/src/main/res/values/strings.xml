@@ -43,5 +43,9 @@
     <string name="invalid_amount_creation_message">The amount of money you are giving is not correct. Do you want to continue anyway?</string>
     <string name="past_party_creation_title">Invalid date for this party</string>
     <string name="past_party_creation_message">If you set this date to this party it won\'t be scheduled because it\'s in the past. Are you sure you want to continue?</string>
+    <string name="private_software_location_error_message">Private software companies like Google does not let us to get your location</string>
+    <string name="location_error">We cannot get your location right now!</string>
+    <string name="wierd_location_creation_title">Wierd location</string>
+    <string name="wierd_location_creation_message">Your home is a very rare place, you sould check the location again. Do you want to continue?</string>
 
 </resources>

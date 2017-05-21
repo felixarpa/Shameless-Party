@@ -20,21 +20,35 @@ public class Party extends RealmObject {
     private int minutes;
     // NGO were your are giving
     private String ngo;
+    // Latitude of your home
+    private double latitude;
+    // Longitude of your home
+    private double longitude;
     // total of money you pay
     private float finalPayment;
     // the party has been canceled
     private boolean canceled;
 
+    public static final double INVALID_LATLNG = 200.0;
+
+    public static final double LATITUDE_MIN = -89.98155760646617;
+    public static final double LATITUDE_MAX = 89.99346179538875;
+
+    public static final double LONGITUDE_MIN = -180.0;
+    public static final double LONGITUDE_MAX = 180.0;
 
 
     public Party() {}
 
-    public Party(String title, long hour, float moneyAmount, int minutes, String ngo) {
+    public Party(String title, long hour, float moneyAmount, int minutes, String ngo,
+                 double latitude, double longitude) {
         this.title = title;
         this.hour = hour;
         this.moneyAmount = moneyAmount;
         this.minutes = minutes;
         this.ngo = ngo;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.finalPayment = -1.0f;
         this.canceled = false;
     }
@@ -59,6 +73,14 @@ public class Party extends RealmObject {
 
     public String getNgo() {
         return ngo;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 
     public float getFinalPayment() {
@@ -92,6 +114,14 @@ public class Party extends RealmObject {
 
     public void setNgo(String ngo) {
         this.ngo = ngo;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public void setFinalPayment(float finalPayment) {

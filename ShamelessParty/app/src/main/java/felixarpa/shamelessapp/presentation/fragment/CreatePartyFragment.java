@@ -27,6 +27,7 @@ import java.util.Locale;
 
 import felixarpa.shamelessapp.R;
 import felixarpa.shamelessapp.domain.model.NGO;
+import felixarpa.shamelessapp.domain.model.Party;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,8 +77,8 @@ public class CreatePartyFragment extends ShamelessFragment implements
         dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
         timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
         selectedNgo = NGO.GREENPEACE;
-        latitude = 0.0;
-        longitude = 0.0;
+        latitude = Party.INVALID_LATLNG;
+        longitude = Party.INVALID_LATLNG;
 
         // NGO image logo
         ngoLogo = (ImageView) view.findViewById(R.id.ngo_logo);
@@ -192,7 +193,7 @@ public class CreatePartyFragment extends ShamelessFragment implements
     public void onLocationSet(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
-        locationTextView.setText(String.format(Locale.US, "%.6f, %.6f", latitude, latitude));
+        locationTextView.setText(String.format(Locale.US, "%.6f, %.6f", latitude, longitude));
     }
 
     private float getAmount() {

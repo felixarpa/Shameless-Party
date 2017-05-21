@@ -26,6 +26,7 @@ import java.util.Date;
 import felixarpa.shamelessapp.R;
 import felixarpa.shamelessapp.domain.controller.exception.AlreadyPartyingException;
 import felixarpa.shamelessapp.domain.controller.exception.InvalidAmountException;
+import felixarpa.shamelessapp.domain.controller.exception.InvalidLocationException;
 import felixarpa.shamelessapp.domain.controller.exception.NoSuchPartyGoingOnException;
 import felixarpa.shamelessapp.domain.controller.exception.PastPartyException;
 import felixarpa.shamelessapp.domain.data.PartyControllerImpl;
@@ -174,16 +175,18 @@ public class MainActivity extends ShamelessActivity implements
         try {
             startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
         } catch (GooglePlayServicesRepairableException e) {
-            Toast.makeText(this, "Private software companies like Google does not let us to get your location", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.private_software_location_error_message,
+                    Toast.LENGTH_SHORT).show();
         } catch (GooglePlayServicesNotAvailableException e) {
-            Toast.makeText(this, "We cannot get your location right now!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.location_error, Toast.LENGTH_SHORT).show();
         }
     }
 
     private EditText input = null;
 
     @Override
-    public void party(final Date completeDate, final String ngo, double latitude, double longitude, final float amount, final int period) {
+    public void party(final Date completeDate, final String ngo, final double latitude,
+                      final double longitude, final float amount, final int period) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         int title = R.string.party_title_dialog;
@@ -209,7 +212,7 @@ public class MainActivity extends ShamelessActivity implements
                 try {
                     String title = input.getText().toString();
                     PartyControllerImpl.getInstance().createNewParty(title, completeDate, amount,
-                            period, ngo);
+                            period, ngo, latitude, longitude);
                 } catch (Exception e) {
                     message = R.string.party_create_failure_message;
                 } finally {
@@ -227,7 +230,8 @@ public class MainActivity extends ShamelessActivity implements
         };
 
         try {
-            PartyControllerImpl.getInstance().checkNewPartyValues(completeDate, amount, period);
+            PartyControllerImpl.getInstance().checkNewPartyValues(completeDate, amount, period,
+                    latitude, longitude);
         } catch (AlreadyPartyingException e) {
             input = null;
             title = R.string.already_partying_creation_title;
@@ -240,6 +244,10 @@ public class MainActivity extends ShamelessActivity implements
             input = null;
             title = R.string.past_party_creation_title;
             message = R.string.past_party_creation_message;
+        } catch (InvalidLocationException e) {
+            input = null;
+            title = R.string.wierd_location_creation_title;
+            message = R.string.wierd_location_creation_message;
         } finally {
             if (input == null) {
                 builder.setMessage(message);
@@ -264,7 +272,7 @@ public class MainActivity extends ShamelessActivity implements
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(this, data);
                 double latitude = place.getLatLng().latitude;
-                double longitude = place.getLatLng().latitude;
+                double longitude = place.getLatLng().longitude;
                 listener.onLocationSet(latitude, longitude);
             }
         }
@@ -282,7 +290,13 @@ public class MainActivity extends ShamelessActivity implements
 
 
 /*
-<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from
+<a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by
+<a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0"
+target="_blank">CC 3.0 BY</a></div>
 
-<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from
+<a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by
+<a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0"
+target="_blank">CC 3.0 BY</a></div>
  */
