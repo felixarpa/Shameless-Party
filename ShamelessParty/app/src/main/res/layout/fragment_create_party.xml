@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,87 +6,155 @@
     android:background="@color/white"
     tools:context="felixarpa.shamelessapp.presentation.fragment.CreatePartyFragment">
 
-
-    <ImageView
-        android:id="@+id/ngo_logo"
-        android:contentDescription="@string/ngo_logo_description"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:layout_margin="32dp"
-        android:layout_gravity="center"
-        android:src="@mipmap/earth"/>
-
     <LinearLayout
-        android:id="@+id/date_layout"
-        style="@style/InputLayoutStyle">
-        <TextView
-            android:text="@string/date_hint"
-            style="@style/InputLabel"/>
-        <TextView
-            android:id="@+id/date_text"
-            android:textSize="18sp"
-            android:textColor="@color/primaryText"
-            style="@style/OutputLabel" />
-        <LinearLayout
-            style="@style/LabelDivider" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/time_layout"
-        style="@style/InputLayoutStyle">
-        <TextView
-            android:text="@string/time_hint"
-            style="@style/InputLabel"/>
-        <TextView
-            android:id="@+id/time_text"
-            android:textSize="18sp"
-            android:textColor="@color/primaryText"
-            style="@style/OutputLabel" />
-        <LinearLayout
-            style="@style/LabelDivider" />
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/InputLayoutStyle">
-        <TextView
-            android:text="@string/ngo_hint"
-            style="@style/InputLabel"/>
-
-        <Spinner
-            android:id="@+id/ngo_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/label_vertical_spacing"/>
-        <LinearLayout
-            style="@style/LabelDivider" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/location_layout"
-        style="@style/InputLayoutStyle">
-        <TextView
-            android:text="@string/location_hint"
-            style="@style/InputLabel"/>
-        <TextView
-            android:id="@+id/location_text"
-            android:textSize="18sp"
-            android:textColor="@color/primaryText"
-            style="@style/OutputLabel" />
-        <LinearLayout
-            style="@style/LabelDivider" />
-    </LinearLayout>
-
-
-
-
-    <Button
-        android:layout_margin="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primaryDark"
-        android:textColor="@color/white"
-        android:text="@string/party_button" />
+        android:orientation="vertical">
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/ngo_logo"
+            android:contentDescription="@string/ngo_logo_description"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_margin="16dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/earth"/>
+
+        <LinearLayout
+            android:id="@+id/date_layout"
+            style="@style/InputLayoutStyle">
+            <TextView
+                android:text="@string/date_hint"
+                style="@style/InputLabel"/>
+            <TextView
+                android:id="@+id/date_text"
+                android:textSize="18sp"
+                android:textColor="@color/primaryText"
+                style="@style/OutputLabel" />
+            <LinearLayout
+                style="@style/LabelDivider" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/time_layout"
+            style="@style/InputLayoutStyle">
+            <TextView
+                android:text="@string/time_hint"
+                style="@style/InputLabel"/>
+            <TextView
+                android:id="@+id/time_text"
+                android:textSize="18sp"
+                android:textColor="@color/primaryText"
+                style="@style/OutputLabel" />
+            <LinearLayout
+                style="@style/LabelDivider" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/InputLayoutStyle">
+            <TextView
+                android:text="@string/ngo_hint"
+                style="@style/InputLabel"/>
+
+            <Spinner
+                android:id="@+id/ngo_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/label_vertical_spacing"/>
+            <LinearLayout
+                style="@style/LabelDivider" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/location_layout"
+            style="@style/InputLayoutStyle">
+            <TextView
+                android:text="@string/location_hint"
+                style="@style/InputLabel"/>
+            <TextView
+                android:id="@+id/location_text"
+                android:textSize="18sp"
+                android:textColor="@color/primaryText"
+                style="@style/OutputLabel" />
+            <LinearLayout
+                style="@style/LabelDivider" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:baselineAligned="true">
+
+            <LinearLayout
+                style="@style/HorizontalInputLayoutStyle">
+                <TextView
+                    android:text="How much are you giving?"
+                    style="@style/InputLabel"/>
+                <EditText
+                    style="@style/OutputLabel"
+                    android:id="@+id/amount_text"
+                    android:textColor="@color/primaryText"
+                    android:text="@string/money_default_value"
+                    android:gravity="end"
+                    android:inputType="numberDecimal|number" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/InputLayoutSpacingStyle"
+                android:paddingStart="0dp"
+                android:layout_width="wrap_content"
+                android:layout_weight="0">
+                <TextView
+                    style="@style/InputLabel"/>
+                <TextView
+                    style="@style/OutputLabel"
+                    android:textSize="18sp"
+                    android:textColor="@color/primaryText"
+                    android:text="@string/every" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/HorizontalInputLayoutStyle">
+                <TextView
+                    android:text="@string/period_hint"
+                    style="@style/InputLabel"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        style="@style/OutputLabel"
+                        android:layout_width="48dp"
+                        android:id="@+id/period_text"
+                        android:textColor="@color/primaryText"
+                        android:text="@string/period_default_value"
+                        android:gravity="end"
+                        android:inputType="number" />
+                    <TextView
+                        style="@style/OutputLabel"
+                        android:layout_width="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="@color/primaryText"
+                        android:text="@string/minute" />
+                    </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/party_button"
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDark"
+            android:textColor="@color/white"
+            android:text="@string/party_button" />
+
+    </LinearLayout>
+
+</ScrollView>

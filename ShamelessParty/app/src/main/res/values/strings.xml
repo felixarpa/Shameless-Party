@@ -26,5 +26,22 @@
     <string name="location_hint">Where do you live? I am not a stalker, I swear!</string>
     <string name="party_button">Let\'s party!</string>
     <string name="ngo_logo_description">ngo logo</string>
+    <string name="every">€ every</string>
+    <string name="period_hint">Time period (min)</string>
+    <string name="period_default_value">1</string>
+    <string name="money_default_value">1</string>
+    <string name="minute">minute(s)</string>
+
+    <string name="party_title_dialog">Give this party a title</string>
+    <string name="done">Done</string>
+    <string name="continue_str">Continue</string>
+    <string name="party_create_success_message">Party scheduled successfully!</string>
+    <string name="party_create_failure_message">Something went wrong!</string>
+    <string name="already_partying_creation_title">There is another party</string>
+    <string name="already_partying_creation_message">You cannot have two parties at the same time. Do you want to continue anyway or go back and do something with your life?</string>
+    <string name="invalid_amount_creation_title">Wrong amount of money</string>
+    <string name="invalid_amount_creation_message">The amount of money you are giving is not correct. Do you want to continue anyway?</string>
+    <string name="past_party_creation_title">Invalid date for this party</string>
+    <string name="past_party_creation_message">If you set this date to this party it won\'t be scheduled because it\'s in the past. Are you sure you want to continue?</string>
 
 </resources>

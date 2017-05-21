@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -20,6 +22,7 @@ import com.android.datetimepicker.time.TimePickerDialog;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import felixarpa.shamelessapp.R;
@@ -34,11 +37,8 @@ import felixarpa.shamelessapp.domain.model.NGO;
  * create an instance of this fragment.
  */
 public class CreatePartyFragment extends ShamelessFragment implements
-        View.OnClickListener,
-        DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener,
-        AdapterView.OnItemSelectedListener
-{
+        View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,
+        AdapterView.OnItemSelectedListener {
 
     private OnCreateFragmentInteractionListener listener;
 
@@ -46,12 +46,17 @@ public class CreatePartyFragment extends ShamelessFragment implements
     private Calendar calendar;
     private DateFormat dateFormat;
     private SimpleDateFormat timeFormat;
+    private String selectedNgo;
+    private double latitude;
+    private double longitude;
 
     private ImageView ngoLogo;
     private TextView dateTextView;
     private TextView timeTextView;
-    private TextView locationTextView;
     private Spinner ngoSpinner;
+    private TextView locationTextView;
+    private EditText amountEditText;
+    private EditText periodEditText;
 
     public CreatePartyFragment() {
         // Required empty public constructor
@@ -70,27 +75,44 @@ public class CreatePartyFragment extends ShamelessFragment implements
         calendar = Calendar.getInstance();
         dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
         timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
+        selectedNgo = NGO.GREENPEACE;
+        latitude = 0.0;
+        longitude = 0.0;
 
+        // NGO image logo
         ngoLogo = (ImageView) view.findViewById(R.id.ngo_logo);
-        dateTextView = (TextView) view.findViewById(R.id.date_text);
-        timeTextView = (TextView) view.findViewById(R.id.time_text);
-        locationTextView = (TextView) view.findViewById(R.id.location_text);
-        ngoSpinner = (Spinner) view.findViewById(R.id.ngo_spinner);
-        LinearLayout dateLayout = (LinearLayout) view.findViewById(R.id.date_layout);
-        LinearLayout timeLayout = (LinearLayout) view.findViewById(R.id.time_layout);
-        LinearLayout locationLayout = (LinearLayout) view.findViewById(R.id.location_layout);
-
         ngoLogo.setImageResource(R.mipmap.greenpeace);
 
+        // Date input layout
+        LinearLayout dateLayout = (LinearLayout) view.findViewById(R.id.date_layout);
+        dateTextView = (TextView) view.findViewById(R.id.date_text);
         dateLayout.setOnClickListener(this);
-        timeLayout.setOnClickListener(this);
-        locationLayout.setOnClickListener(this);
 
+        // Time input layout
+        LinearLayout timeLayout = (LinearLayout) view.findViewById(R.id.time_layout);
+        timeTextView = (TextView) view.findViewById(R.id.time_text);
+        timeLayout.setOnClickListener(this);
+
+        // NGO dropdown list
+        ngoSpinner = (Spinner) view.findViewById(R.id.ngo_spinner);
         ArrayAdapter<String> ngoAdapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, NGO.NAME_ARRAY);
         ngoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ngoSpinner.setAdapter(ngoAdapter);
         ngoSpinner.setOnItemSelectedListener(this);
+
+        // Location input layout with PlacePicker (Google)
+        LinearLayout locationLayout = (LinearLayout) view.findViewById(R.id.location_layout);
+        locationTextView = (TextView) view.findViewById(R.id.location_text);
+        locationLayout.setOnClickListener(this);
+
+        // Money-amount-per-time input
+        amountEditText = (EditText) view.findViewById(R.id.amount_text);
+        periodEditText = (EditText) view.findViewById(R.id.period_text);
+
+        // Party button
+        Button partyButton = (Button) view.findViewById(R.id.party_button);
+        partyButton.setOnClickListener(this);
 
         update();
 
@@ -134,6 +156,10 @@ public class CreatePartyFragment extends ShamelessFragment implements
             case R.id.location_layout:
                 listener.requestLocation();
                 break;
+
+            case R.id.party_button:
+                listener.party(calendar.getTime(), selectedNgo, latitude, longitude,
+                        getAmount(), getPeriod());
         }
     }
 
@@ -150,12 +176,12 @@ public class CreatePartyFragment extends ShamelessFragment implements
         update();
     }
 
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (position >= 0 && position < NGO.LOGO_RES_IDs.length) {
+            selectedNgo = NGO.NAME_ARRAY[position];
             ngoLogo.setImageResource(NGO.LOGO_RES_IDs[position]);
-        } else {
-            ngoLogo.setImageResource(R.mipmap.earth);
         }
     }
 
@@ -164,12 +190,32 @@ public class CreatePartyFragment extends ShamelessFragment implements
     }
 
     public void onLocationSet(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
         locationTextView.setText(String.format(Locale.US, "%.6f, %.6f", latitude, latitude));
+    }
+
+    private float getAmount() {
+        try {
+            return Float.parseFloat(amountEditText.getText().toString());
+        } catch (NumberFormatException e) {
+            return -1.0f;
+        }
+    }
+
+    private int getPeriod() {
+        try {
+            return Integer.parseInt(periodEditText.getText().toString());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
     public interface OnCreateFragmentInteractionListener {
         void onDateClick(DatePickerDialog.OnDateSetListener listener);
         void onTimeClick(TimePickerDialog.OnTimeSetListener listener);
         void requestLocation();
+        void party(Date completeDate, String ngo, double latitude, double longitude, float amount,
+                   int period);
     }
 }

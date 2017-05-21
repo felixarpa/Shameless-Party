@@ -1,12 +1,16 @@
 package felixarpa.shamelessapp.presentation.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.datetimepicker.date.DatePickerDialog;
@@ -17,9 +21,13 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import felixarpa.shamelessapp.R;
+import felixarpa.shamelessapp.domain.controller.exception.AlreadyPartyingException;
+import felixarpa.shamelessapp.domain.controller.exception.InvalidAmountException;
 import felixarpa.shamelessapp.domain.controller.exception.NoSuchPartyGoingOnException;
+import felixarpa.shamelessapp.domain.controller.exception.PastPartyException;
 import felixarpa.shamelessapp.domain.data.PartyControllerImpl;
 import felixarpa.shamelessapp.domain.model.Party;
 import felixarpa.shamelessapp.presentation.fragment.CreatePartyFragment;
@@ -27,6 +35,7 @@ import felixarpa.shamelessapp.presentation.fragment.PartyFragment;
 import felixarpa.shamelessapp.presentation.fragment.PlusOneFragment;
 import felixarpa.shamelessapp.presentation.fragment.ShamelessFragment;
 import felixarpa.shamelessapp.utils.ExitAppTimer;
+import io.realm.Realm;
 
 public class MainActivity extends ShamelessActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,
@@ -45,6 +54,8 @@ public class MainActivity extends ShamelessActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Realm.init(getApplicationContext());
 
         calendar = Calendar.getInstance();
 
@@ -110,7 +121,6 @@ public class MainActivity extends ShamelessActivity implements
     // Plus One Fragment
     @Override
     public void requestPartyCreation() {
-        Toast.makeText(this, "requestPartyCreation", Toast.LENGTH_SHORT).show();
         fragment = CreatePartyFragment.newInstance();
         replace();
     }
@@ -167,6 +177,84 @@ public class MainActivity extends ShamelessActivity implements
             Toast.makeText(this, "Private software companies like Google does not let us to get your location", Toast.LENGTH_SHORT).show();
         } catch (GooglePlayServicesNotAvailableException e) {
             Toast.makeText(this, "We cannot get your location right now!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private EditText input = null;
+
+    @Override
+    public void party(final Date completeDate, final String ngo, double latitude, double longitude, final float amount, final int period) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        int title = R.string.party_title_dialog;
+        int message = R.string.app_name;
+        int positiveStr = R.string.continue_str;
+        int negativeStr = R.string.cancel;
+
+        input = new EditText(this);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        int dpValue = 16; // margin in dips
+        float d = getResources().getDisplayMetrics().density;
+        int margin = (int)(dpValue * d);
+        layoutParams.setMarginStart(margin);
+        layoutParams.setMarginEnd(margin);
+        input.setLayoutParams(layoutParams);
+
+        DialogInterface.OnClickListener onPositiveListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int message = R.string.party_create_success_message;
+                try {
+                    String title = input.getText().toString();
+                    PartyControllerImpl.getInstance().createNewParty(title, completeDate, amount,
+                            period, ngo);
+                } catch (Exception e) {
+                    message = R.string.party_create_failure_message;
+                } finally {
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
+                }
+            }
+        };
+        DialogInterface.OnClickListener onNegativeListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        };
+
+        try {
+            PartyControllerImpl.getInstance().checkNewPartyValues(completeDate, amount, period);
+        } catch (AlreadyPartyingException e) {
+            input = null;
+            title = R.string.already_partying_creation_title;
+            message = R.string.already_partying_creation_message;
+        } catch (InvalidAmountException e) {
+            input = null;
+            title = R.string.invalid_amount_creation_title;
+            message = R.string.invalid_amount_creation_message;
+        } catch (PastPartyException e) {
+            input = null;
+            title = R.string.past_party_creation_title;
+            message = R.string.past_party_creation_message;
+        } finally {
+            if (input == null) {
+                builder.setMessage(message);
+                onPositiveListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        startActivity(new Intent(getApplicationContext(), MemoryActivity.class));
+//                        finish();
+                    }
+                };
+            } else {
+                builder.setView(input);
+            }
+            builder.setTitle(title).setPositiveButton(positiveStr, onPositiveListener)
+                    .setNegativeButton(negativeStr, onNegativeListener).show();
         }
     }
 
