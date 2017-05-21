@@ -34,7 +34,7 @@ public class MainActivity extends ShamelessActivity implements
         PartyFragment.OnPartyFragmentInteractionListener,
         CreatePartyFragment.OnCreateFragmentInteractionListener {
 
-    private static final int PLACE_PICKER_REQUEST = 1;
+    public static final int PLACE_PICKER_REQUEST = 1;
     private FragmentManager manager;
     private ShamelessFragment fragment;
     private Party party;
@@ -155,8 +155,11 @@ public class MainActivity extends ShamelessActivity implements
         ).show(getFragmentManager(), "timePicker");
     }
 
+    private CreatePartyFragment listener;
+
     @Override
     public void requestLocation() {
+        listener = (CreatePartyFragment) fragment;
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
         try {
             startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
@@ -172,8 +175,9 @@ public class MainActivity extends ShamelessActivity implements
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(this, data);
-                String toastMsg = String.format("Place: %s", place.getName());
-                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+                double latitude = place.getLatLng().latitude;
+                double longitude = place.getLatLng().latitude;
+                listener.onLocationSet(latitude, longitude);
             }
         }
     }

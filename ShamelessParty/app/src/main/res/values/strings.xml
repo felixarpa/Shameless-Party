@@ -20,7 +20,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="donating_ngo">DONATING NGO</string>
-    <string name="date_hint">DATE</string>
-    <string name="time_hint">TIME</string>
-    <string name="party_button">PARTY!</string>
+    <string name="date_hint">When is the party?</string>
+    <string name="time_hint">At what time do you plan to get home?</string>
+    <string name="ngo_hint">Who will you donate?</string>
+    <string name="location_hint">Where do you live? I am not a stalker, I swear!</string>
+    <string name="party_button">Let\'s party!</string>
+    <string name="ngo_logo_description">ngo logo</string>
+
 </resources>

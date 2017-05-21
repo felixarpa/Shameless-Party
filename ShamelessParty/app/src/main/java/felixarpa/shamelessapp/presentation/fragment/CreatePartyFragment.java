@@ -6,7 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.datetimepicker.date.DatePickerDialog;
@@ -19,11 +23,12 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import felixarpa.shamelessapp.R;
+import felixarpa.shamelessapp.domain.model.NGO;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CreatePartyFragment.OnFragmentInteractionListener} interface
+ * {@link CreatePartyFragment.OnCreateFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link CreatePartyFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -31,7 +36,9 @@ import felixarpa.shamelessapp.R;
 public class CreatePartyFragment extends ShamelessFragment implements
         View.OnClickListener,
         DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener {
+        TimePickerDialog.OnTimeSetListener,
+        AdapterView.OnItemSelectedListener
+{
 
     private OnCreateFragmentInteractionListener listener;
 
@@ -40,9 +47,11 @@ public class CreatePartyFragment extends ShamelessFragment implements
     private DateFormat dateFormat;
     private SimpleDateFormat timeFormat;
 
+    private ImageView ngoLogo;
     private TextView dateTextView;
     private TextView timeTextView;
-    private Button locationButton;
+    private TextView locationTextView;
+    private Spinner ngoSpinner;
 
     public CreatePartyFragment() {
         // Required empty public constructor
@@ -62,13 +71,26 @@ public class CreatePartyFragment extends ShamelessFragment implements
         dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
         timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
 
-        dateTextView = (TextView) view.findViewById(R.id.date);
-        timeTextView = (TextView) view.findViewById(R.id.time);
-        locationButton = (Button) view.findViewById(R.id.location_button);
+        ngoLogo = (ImageView) view.findViewById(R.id.ngo_logo);
+        dateTextView = (TextView) view.findViewById(R.id.date_text);
+        timeTextView = (TextView) view.findViewById(R.id.time_text);
+        locationTextView = (TextView) view.findViewById(R.id.location_text);
+        ngoSpinner = (Spinner) view.findViewById(R.id.ngo_spinner);
+        LinearLayout dateLayout = (LinearLayout) view.findViewById(R.id.date_layout);
+        LinearLayout timeLayout = (LinearLayout) view.findViewById(R.id.time_layout);
+        LinearLayout locationLayout = (LinearLayout) view.findViewById(R.id.location_layout);
 
-        dateTextView.setOnClickListener(this);
-        timeTextView.setOnClickListener(this);
-        locationButton.setOnClickListener(this);
+        ngoLogo.setImageResource(R.mipmap.greenpeace);
+
+        dateLayout.setOnClickListener(this);
+        timeLayout.setOnClickListener(this);
+        locationLayout.setOnClickListener(this);
+
+        ArrayAdapter<String> ngoAdapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item, NGO.NAME_ARRAY);
+        ngoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ngoSpinner.setAdapter(ngoAdapter);
+        ngoSpinner.setOnItemSelectedListener(this);
 
         update();
 
@@ -101,15 +123,15 @@ public class CreatePartyFragment extends ShamelessFragment implements
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.date:
+            case R.id.date_layout:
                 listener.onDateClick(this);
                 break;
 
-            case R.id.time:
+            case R.id.time_layout:
                 listener.onTimeClick(this);
                 break;
 
-            case R.id.location_button:
+            case R.id.location_layout:
                 listener.requestLocation();
                 break;
         }
@@ -126,6 +148,23 @@ public class CreatePartyFragment extends ShamelessFragment implements
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         update();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (position >= 0 && position < NGO.LOGO_RES_IDs.length) {
+            ngoLogo.setImageResource(NGO.LOGO_RES_IDs[position]);
+        } else {
+            ngoLogo.setImageResource(R.mipmap.earth);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+    public void onLocationSet(double latitude, double longitude) {
+        locationTextView.setText(String.format(Locale.US, "%.6f, %.6f", latitude, latitude));
     }
 
     public interface OnCreateFragmentInteractionListener {

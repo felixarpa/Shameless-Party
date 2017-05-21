@@ -7,11 +7,11 @@ import felixarpa.shamelessapp.domain.controller.exception.AlreadyPartyingExcepti
 import felixarpa.shamelessapp.domain.controller.exception.InvalidAmountException;
 import felixarpa.shamelessapp.domain.controller.exception.NoSuchPartyGoingOnException;
 import felixarpa.shamelessapp.domain.controller.exception.NoSuchPartyThenException;
-import felixarpa.shamelessapp.domain.model.NonGovernmentalOrganization;
+import felixarpa.shamelessapp.domain.model.NGO;
 import felixarpa.shamelessapp.domain.model.Party;
 
 public interface PartyController {
-    Party createNewParty(String title, Date limitHour, float moneyAmount, int minutes, NonGovernmentalOrganization ngo)
+    Party createNewParty(String title, Date limitHour, float moneyAmount, int minutes, NGO ngo)
             throws AlreadyPartyingException, InvalidAmountException;
 
     void /* TODO Payment service */ commitParty() throws NoSuchPartyGoingOnException;

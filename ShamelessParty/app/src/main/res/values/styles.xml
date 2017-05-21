@@ -8,4 +8,47 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="InputLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">72dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+    </style>
+
+    <style name="UnEditTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:enabled">true</item>
+    </style>
+
+    <style name="TextAppearance.Design.Hint" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">?attr/colorControlActivated</item>
+    </style>
+
+    <style name="InputLabel" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="OutputLabel">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/label_vertical_spacing</item>
+    </style>
+
+    <style name="LabelDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/labelDivider</item>
+        <item name="android:layout_marginTop">3dp</item>
+    </style>
+
+
 </resources>

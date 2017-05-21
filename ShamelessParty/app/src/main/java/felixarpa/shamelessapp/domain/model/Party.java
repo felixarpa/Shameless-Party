@@ -19,7 +19,7 @@ public class Party extends RealmObject {
     // period of time between each finalPayment
     private int minutes;
     // NGO were your are giving
-    private NonGovernmentalOrganization ngo;
+    private String ngo;
     // total of money you pay
     private float finalPayment;
     // the party has been canceled
@@ -29,7 +29,7 @@ public class Party extends RealmObject {
 
     public Party() {}
 
-    public Party(String title, long hour, float moneyAmount, int minutes, NonGovernmentalOrganization ngo) {
+    public Party(String title, long hour, float moneyAmount, int minutes, String ngo) {
         this.title = title;
         this.hour = hour;
         this.moneyAmount = moneyAmount;
@@ -57,7 +57,7 @@ public class Party extends RealmObject {
         return minutes;
     }
 
-    public NonGovernmentalOrganization getNgo() {
+    public String getNgo() {
         return ngo;
     }
 
@@ -90,7 +90,7 @@ public class Party extends RealmObject {
         this.minutes = minutes;
     }
 
-    public void setNgo(NonGovernmentalOrganization ngo) {
+    public void setNgo(String ngo) {
         this.ngo = ngo;
     }
 
@@ -108,12 +108,9 @@ public class Party extends RealmObject {
     @Override
     public String toString() {
 
-        String stringEnd = ".";
-        if (ngo != null) {
-            stringEnd = " to " + ngo.toString();
-            if (finalPayment < 0.0f) {
-                stringEnd += ". You paid: " + finalPayment + "€.";
-            }
+        String stringEnd = " to " + ngo;
+        if (finalPayment < 0.0f) {
+            stringEnd += ". You paid: " + finalPayment + "€.";
         }
         return "Party " + title
                 + " at " + DateUtil.getHour(hour)

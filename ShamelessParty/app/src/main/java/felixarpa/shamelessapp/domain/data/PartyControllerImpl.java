@@ -8,7 +8,7 @@ import felixarpa.shamelessapp.domain.controller.exception.InvalidAmountException
 import felixarpa.shamelessapp.domain.controller.exception.NoSuchPartyGoingOnException;
 import felixarpa.shamelessapp.domain.controller.exception.NoSuchPartyThenException;
 import felixarpa.shamelessapp.domain.controller.PartyController;
-import felixarpa.shamelessapp.domain.model.NonGovernmentalOrganization;
+import felixarpa.shamelessapp.domain.model.NGO;
 import felixarpa.shamelessapp.domain.model.Party;
 import io.realm.RealmResults;
 
@@ -25,7 +25,7 @@ public class PartyControllerImpl implements PartyController {
     }
 
     @Override
-    public Party createNewParty(String title, Date limitHour, float moneyAmount, int minutes, NonGovernmentalOrganization ngo)
+    public Party createNewParty(String title, Date limitHour, float moneyAmount, int minutes, NGO ngo)
             throws AlreadyPartyingException, InvalidAmountException {
         int eurosPerMinute = (int) (moneyAmount * minutes);
         if (eurosPerMinute < 1) {

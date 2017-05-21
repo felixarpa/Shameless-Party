@@ -8,6 +8,8 @@
 
 
     <ImageView
+        android:id="@+id/ngo_logo"
+        android:contentDescription="@string/ngo_logo_description"
         android:layout_width="128dp"
         android:layout_height="128dp"
         android:layout_margin="32dp"
@@ -15,110 +17,69 @@
         android:src="@mipmap/earth"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/divider"/>
+        android:id="@+id/date_layout"
+        style="@style/InputLayoutStyle">
+        <TextView
+            android:text="@string/date_hint"
+            style="@style/InputLabel"/>
+        <TextView
+            android:id="@+id/date_text"
+            android:textSize="18sp"
+            android:textColor="@color/primaryText"
+            style="@style/OutputLabel" />
+        <LinearLayout
+            style="@style/LabelDivider" />
+    </LinearLayout>
+
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="16dp">
-
+        android:id="@+id/time_layout"
+        style="@style/InputLayoutStyle">
         <TextView
-            android:id="@+id/ngo_hint"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:textSize="16sp"
-            android:gravity="end"
-            android:textColor="@color/secondaryText"
-            android:textStyle="bold"
-            android:text="@string/donating_ngo" />
+            android:text="@string/time_hint"
+            style="@style/InputLabel"/>
+        <TextView
+            android:id="@+id/time_text"
+            android:textSize="18sp"
+            android:textColor="@color/primaryText"
+            style="@style/OutputLabel" />
+        <LinearLayout
+            style="@style/LabelDivider" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/InputLayoutStyle">
+        <TextView
+            android:text="@string/ngo_hint"
+            style="@style/InputLabel"/>
 
         <Spinner
             android:id="@+id/ngo_spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/label_vertical_spacing"/>
+        <LinearLayout
+            style="@style/LabelDivider" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/divider"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="16dp">
-
+        android:id="@+id/location_layout"
+        style="@style/InputLayoutStyle">
         <TextView
-            android:id="@+id/date_hint"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:textSize="16sp"
-            android:gravity="end"
-            android:textColor="@color/secondaryText"
-            android:textStyle="bold"
-            android:text="@string/date_hint" />
-
+            android:text="@string/location_hint"
+            style="@style/InputLabel"/>
         <TextView
-            android:id="@+id/date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/location_text"
             android:textSize="18sp"
             android:textColor="@color/primaryText"
-            android:text="[current date]" />
+            style="@style/OutputLabel" />
+        <LinearLayout
+            style="@style/LabelDivider" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="16dp">
 
-        <TextView
-            android:id="@+id/time_hint"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:textSize="16sp"
-            android:gravity="end"
-            android:textColor="@color/secondaryText"
-            android:textStyle="bold"
-            android:text="@string/time_hint" />
 
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/primaryText"
-            android:text="[current time]" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/divider"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_margin="16dp">
-
-        <Button
-            android:id="@+id/location_button"
-            android:layout_width="144dp"
-            android:layout_height="wrap_content"
-            android:background="@color/primaryLight"
-            android:textColor="@color/primaryText"
-            android:text="HOME LOCATION" />
-    </LinearLayout>
 
     <Button
         android:layout_margin="16dp"
@@ -127,6 +88,5 @@
         android:background="@color/primaryDark"
         android:textColor="@color/white"
         android:text="@string/party_button" />
-
 
 </LinearLayout>
