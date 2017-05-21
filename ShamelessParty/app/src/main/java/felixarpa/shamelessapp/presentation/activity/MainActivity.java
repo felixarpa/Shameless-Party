@@ -44,6 +44,8 @@ public class MainActivity extends ShamelessActivity implements
         PartyFragment.OnPartyFragmentInteractionListener,
         CreatePartyFragment.OnCreateFragmentInteractionListener {
 
+    // region activity
+
     public static final int PLACE_PICKER_REQUEST = 1;
     private FragmentManager manager;
     private ShamelessFragment fragment;
@@ -119,14 +121,18 @@ public class MainActivity extends ShamelessActivity implements
         }
     }
 
-    // Plus One Fragment
+    // endregion
+
+    // region Plus One Fragment
     @Override
     public void requestPartyCreation() {
         fragment = CreatePartyFragment.newInstance();
         replace();
     }
 
-    // Party Fragment
+    // endregion
+
+    // region Party Fragment
     @Override
     public void tryToCancel() {
         Toast.makeText(this, "tryToCancel", Toast.LENGTH_SHORT).show();
@@ -145,6 +151,9 @@ public class MainActivity extends ShamelessActivity implements
         return party;
     }
 
+    // endregion
+
+    // region Create Party Fragment
 
     @Override
     public void onDateClick(DatePickerDialog.OnDateSetListener listener) {
@@ -222,6 +231,7 @@ public class MainActivity extends ShamelessActivity implements
                 }
             }
         };
+
         DialogInterface.OnClickListener onNegativeListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -254,8 +264,8 @@ public class MainActivity extends ShamelessActivity implements
                 onPositiveListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        startActivity(new Intent(getApplicationContext(), MemoryActivity.class));
-//                        finish();
+                        startActivity(new Intent(getApplicationContext(), Memory6x6.class));
+                        finish();
                     }
                 };
             } else {
