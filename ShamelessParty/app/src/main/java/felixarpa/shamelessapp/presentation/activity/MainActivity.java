@@ -44,6 +44,7 @@ import felixarpa.shamelessapp.presentation.fragment.CreatePartyFragment;
 import felixarpa.shamelessapp.presentation.fragment.PartyFragment;
 import felixarpa.shamelessapp.presentation.fragment.PartyListFragment;
 import felixarpa.shamelessapp.presentation.fragment.PlusOneFragment;
+import felixarpa.shamelessapp.presentation.fragment.RankingFragment;
 import felixarpa.shamelessapp.presentation.fragment.ShamelessFragment;
 import felixarpa.shamelessapp.utils.ExitAppTimer;
 import io.realm.Realm;
@@ -122,7 +123,7 @@ public class MainActivity extends ShamelessActivity implements
                     fragment = PartyListFragment.newInstance();
                     break;
                 case R.id.navigation_stats:
-
+                    fragment = RankingFragment.newInstance();
                     break;
             }
             replace();

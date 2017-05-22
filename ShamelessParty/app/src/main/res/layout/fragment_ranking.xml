@@ -1,13 +1,76 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@color/white"
     tools:context="felixarpa.shamelessapp.presentation.fragment.RankingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/ranking_text2"
+            style="@style/TextRankingPosition"
+            android:layout_height="128dp"
+            android:text="@string/_2"/>
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/money_text2"
+            android:layout_above="@+id/ranking_text2"
+            style="@style/TextRankingMoney"/>
+
+        <ImageView
+            android:id="@+id/image2"
+            style="@style/ImageRanking"
+            android:layout_above="@+id/money_text2"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/ranking_text1"
+            style="@style/TextRankingPosition"
+            android:layout_height="192dp"
+            android:text="@string/_1"/>
+
+        <TextView
+            android:id="@+id/money_text1"
+            android:layout_above="@+id/ranking_text1"
+            style="@style/TextRankingMoney"/>
+
+        <ImageView
+            android:id="@+id/image1"
+            style="@style/ImageRanking"
+            android:layout_above="@+id/money_text1"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/ranking_text3"
+            style="@style/TextRankingPosition"
+            android:layout_height="72dp"
+            android:text="@string/_3"/>
+
+        <TextView
+            android:id="@+id/money_text3"
+            android:layout_above="@+id/ranking_text3"
+            style="@style/TextRankingMoney"/>
+
+        <ImageView
+            android:id="@+id/image3"
+            style="@style/ImageRanking"
+            android:layout_above="@+id/money_text3"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

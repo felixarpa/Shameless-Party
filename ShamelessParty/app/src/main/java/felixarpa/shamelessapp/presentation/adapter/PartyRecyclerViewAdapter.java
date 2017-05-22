@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Locale;
 
 import felixarpa.shamelessapp.R;
-import felixarpa.shamelessapp.domain.model.NGO;
 import felixarpa.shamelessapp.domain.model.Party;
+import felixarpa.shamelessapp.utils.C;
 
 public class PartyRecyclerViewAdapter extends RecyclerView.Adapter<PartyRecyclerViewAdapter.ViewHolder> {
 
@@ -53,20 +53,7 @@ public class PartyRecyclerViewAdapter extends RecyclerView.Adapter<PartyRecycler
         }
         holder.amountTextView.setText(String.format("%.2f €", amount));
 
-        int imageResId = R.mipmap.earth;
-        String ngo = party.getNgo();
-        if (ngo.equals(NGO.GREENPEACE)) {
-            imageResId = R.mipmap.greenpeace;
-        } else if (ngo.equals(NGO.AMNESTY)) {
-            imageResId = R.mipmap.amnesty;
-        } else if (ngo.equals(NGO.UNICEF)) {
-            imageResId = R.mipmap.unicef;
-        } else if (ngo.equals(NGO.MEDECINS_SANS_FRONTIERES)) {
-            imageResId = R.mipmap.msf;
-        } else if (ngo.equals(NGO.WWF)) {
-            imageResId = R.mipmap.wwf;
-        }
-        holder.ngoLogoImage.setImageResource(imageResId);
+        holder.ngoLogoImage.setImageResource(C.getNGOImageRes(party.getNgo()));
     }
 
     @Override
