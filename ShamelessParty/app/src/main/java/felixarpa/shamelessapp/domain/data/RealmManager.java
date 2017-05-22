@@ -26,4 +26,20 @@ public class RealmManager {
         realm.copyToRealm(party);
         realm.commitTransaction();
     }
+
+    void postFinalPayment(Party party, float finalPayment) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        party.setFinalPayment(finalPayment);
+        realm.copyToRealm(party);
+        realm.commitTransaction();
+    }
+
+    void postCancel(Party party) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        party.cancel();
+        realm.copyToRealm(party);
+        realm.commitTransaction();
+    }
 }

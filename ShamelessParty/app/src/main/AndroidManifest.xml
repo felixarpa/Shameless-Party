@@ -24,14 +24,18 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA_aHdNHbWteAyQtah-PNeSul50Q2PLcaY"/>
-        <activity android:name=".presentation.activity.MainActivity">
+        <activity
+            android:name=".presentation.activity.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.activity.Memory6x6"/>
+        <activity
+            android:name=".presentation.activity.Memory6x6"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

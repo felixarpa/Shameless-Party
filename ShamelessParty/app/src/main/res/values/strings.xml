@@ -48,5 +48,8 @@
     <string name="location_error">We cannot get your location right now!</string>
     <string name="wierd_location_creation_title">Wierd location</string>
     <string name="wierd_location_creation_message">Your home is a very rare place, you sould check the location again. Do you want to continue?</string>
+    <string name="cancel_party">Cancel party</string>
+    <string name="finish_party">FINISH PARTY</string>
+    <string name="default_money">0 €</string>
 
 </resources>

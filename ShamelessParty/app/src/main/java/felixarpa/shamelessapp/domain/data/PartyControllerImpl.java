@@ -80,16 +80,12 @@ public class PartyControllerImpl implements PartyController {
         long now = System.currentTimeMillis();
         int minutes = (int) ((now - party.getHour()) / 60000);
         float finalPayment = minutes * party.getMoneyAmount();
-        party.setFinalPayment(finalPayment);
-
-        db.put(party);
+        db.postFinalPayment(party, finalPayment);
     }
 
     @Override
     public void cancelParty() throws NoSuchPartyGoingOnException {
-        Party party = getParty();
-        party.cancel();
-        db.put(party);
+        db.postCancel(getParty());
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -73,7 +74,7 @@ public class MainActivity extends ShamelessActivity implements
 
         try {
             party = PartyControllerImpl.getInstance().getParty();
-            fragment = PartyFragment.newInstance(party.getHour());
+            fragment = PartyFragment.newInstance();
         } catch (NoSuchPartyGoingOnException e) {
             fragment = new PlusOneFragment();
         }
@@ -111,7 +112,7 @@ public class MainActivity extends ShamelessActivity implements
                 case R.id.navigation_party:
                     try {
                         party = PartyControllerImpl.getInstance().getParty();
-                        fragment = PartyFragment.newInstance(party.getHour());
+                        fragment = PartyFragment.newInstance();
                     } catch (NoSuchPartyGoingOnException e) {
                         fragment = new PlusOneFragment();
                     }
@@ -160,12 +161,26 @@ public class MainActivity extends ShamelessActivity implements
     // region Party Fragment
     @Override
     public void tryToCancel() {
-        Toast.makeText(this, "tryToCancel", Toast.LENGTH_SHORT).show();
+        try {
+            PartyControllerImpl.getInstance().cancelParty();
+            stopLocationService();
+            fragment = new PlusOneFragment();
+            replace();
+        } catch (NoSuchPartyGoingOnException e) {
+            Log.wtf("try to cancel", "NoSuchPartyGoingOnException: " + e.getMessage());
+        }
     }
 
     @Override
-    public void showDistanceHome() {
-        Toast.makeText(this, "showDistanceHome", Toast.LENGTH_SHORT).show();
+    public void finishParty() {
+        try {
+            PartyControllerImpl.getInstance().commitParty();
+            stopLocationService();
+            fragment = new PlusOneFragment();
+            replace();
+        } catch (NoSuchPartyGoingOnException e) {
+            Log.wtf("try to cancel", "NoSuchPartyGoingOnException: " + e.getMessage());
+        }
     }
 
     @Override
@@ -200,6 +215,13 @@ public class MainActivity extends ShamelessActivity implements
     }
 
     @Override
+    public void stopLocationService() {
+        if (googleApiClient != null) {
+            googleApiClient.disconnect();
+        }
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -229,7 +251,7 @@ public class MainActivity extends ShamelessActivity implements
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        getLocation();
+        ((PartyFragment) fragment).displayDistanceFromLocation();
     }
 
     @Override
@@ -387,7 +409,8 @@ public class MainActivity extends ShamelessActivity implements
         manager.beginTransaction().replace(R.id.content, fragment).commit();
     }
 
-    public void getLocation() {
+    @Override
+    public Location getLocation() {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(this,
@@ -411,11 +434,13 @@ public class MainActivity extends ShamelessActivity implements
                         new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                         MY_PERMISSIONS_REQUEST_COARSE_LOCATION);
             }
+
+            Location mockLocation = new Location("mock location");
+            mockLocation.setLatitude(party.getLatitude() + 1.0);
+            mockLocation.setLongitude(party.getLongitude());
+            return mockLocation;
         } else {
-            location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-            if (location != null) {
-                ((PartyFragment) fragment).displayDistanceFrom(location);
-            }
+            return LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         }
     }
 
