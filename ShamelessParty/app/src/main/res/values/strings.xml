@@ -51,5 +51,6 @@
     <string name="cancel_party">Cancel party</string>
     <string name="finish_party">FINISH PARTY</string>
     <string name="default_money">0 €</string>
+    <string name="my_donations">My donations</string>
 
 </resources>

@@ -4,27 +4,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import felixarpa.shamelessapp.R;
+import felixarpa.shamelessapp.domain.model.NGO;
 import felixarpa.shamelessapp.domain.model.Party;
-import felixarpa.shamelessapp.presentation.fragment.PartyListFragment.OnListFragmentInteractionListener;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link Party} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class PartyRecyclerViewAdapter extends RecyclerView.Adapter<PartyRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Party> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final List<Party> parties;
 
-    public PartyRecyclerViewAdapter(List<Party> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
-        mListener = listener;
+    public PartyRecyclerViewAdapter(List<Party> items) {
+        parties = items;
     }
 
     @Override
@@ -36,43 +34,60 @@ public class PartyRecyclerViewAdapter extends RecyclerView.Adapter<PartyRecycler
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        // holder.mIdView.setText(mValues.get(position).id);
-        // holder.mContentView.setText(mValues.get(position).content);
+        Party party = parties.get(position);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    // mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
+        holder.titleTextView.setText(party.getTitle());
+
+        Calendar calendar = Calendar.getInstance();
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
+        Date date = new Date(party.getHour());
+        calendar.setTime(date);
+        holder.dateTextView.setText(dateFormat.format(calendar.getTime()));
+
+        float amount = party.getFinalPayment();
+        if (party.isCanceled()) {
+            holder.amountTextView.setTextColor(0xffff0000);
+            holder.dateTextView.setText(holder.dateTextView.getText() + " (canceled)");
+        } else if (amount == 0.0f){
+            holder.amountTextView.setTextColor(0xff212121);
+        }
+        holder.amountTextView.setText(String.format("%.2f €", amount));
+
+        int imageResId = R.mipmap.earth;
+        String ngo = party.getNgo();
+        if (ngo.equals(NGO.GREENPEACE)) {
+            imageResId = R.mipmap.greenpeace;
+        } else if (ngo.equals(NGO.AMNESTY)) {
+            imageResId = R.mipmap.amnesty;
+        } else if (ngo.equals(NGO.UNICEF)) {
+            imageResId = R.mipmap.unicef;
+        } else if (ngo.equals(NGO.MEDECINS_SANS_FRONTIERES)) {
+            imageResId = R.mipmap.msf;
+        } else if (ngo.equals(NGO.WWF)) {
+            imageResId = R.mipmap.wwf;
+        }
+        holder.ngoLogoImage.setImageResource(imageResId);
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return parties.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public Party mItem;
+        public View view;
+        public TextView titleTextView;
+        public TextView dateTextView;
+        public TextView amountTextView;
+        public ImageView ngoLogoImage;
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            this.view = view;
+            this.titleTextView = (TextView) view.findViewById(R.id.title_text);
+            this.dateTextView = (TextView) view.findViewById(R.id.petao_text);
+            this.amountTextView = (TextView) view.findViewById(R.id.amount_text);
+            this.ngoLogoImage = (ImageView) view.findViewById(R.id.ngo_logo);
         }
     }
 }

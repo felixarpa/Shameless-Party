@@ -129,17 +129,14 @@ public class Party extends RealmObject {
     }
 
     public void cancel() {
-        finalPayment = 0.0f;
         this.canceled = true;
     }
-
-
 
     @Override
     public String toString() {
 
         String stringEnd = " to " + ngo;
-        if (finalPayment < 0.0f) {
+        if (finalPayment < 0.1f) {
             stringEnd += ". You paid: " + finalPayment + "€.";
         }
         return "Party " + title

@@ -74,18 +74,26 @@ public class PartyControllerImpl implements PartyController {
         } catch (NoSuchPartyGoingOnException ignored) {}
     }
 
-    @Override
-    public void commitParty() throws NoSuchPartyGoingOnException {
-        Party party = getParty();
+    private float getFinalPaymentFrom(Party party) {
         long now = System.currentTimeMillis();
         int minutes = (int) ((now - party.getHour()) / 60000);
         float finalPayment = minutes * party.getMoneyAmount();
-        db.postFinalPayment(party, finalPayment);
+        if (finalPayment < 0.0f) {
+            finalPayment = 0.0f;
+        }
+        return finalPayment;
+    }
+
+    @Override
+    public void commitParty() throws NoSuchPartyGoingOnException {
+        Party party = getParty();
+        db.postFinalPayment(party, getFinalPaymentFrom(party));
     }
 
     @Override
     public void cancelParty() throws NoSuchPartyGoingOnException {
-        db.postCancel(getParty());
+        Party party = getParty();
+        db.postCancel(party, getFinalPaymentFrom(party));
     }
 
     @Override
