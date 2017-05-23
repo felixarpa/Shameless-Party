@@ -9,7 +9,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:background="@color/primaryDark"
+        android:background="@color/primary"
         android:titleTextColor="@color/white"
         android:title="@string/my_donations"
         app:titleTextColor="@color/white"

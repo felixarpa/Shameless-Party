@@ -41,9 +41,7 @@ public class RankingFragment extends ShamelessFragment {
         ArrayList<Party> parties = PartyControllerImpl.getInstance().getAllParties();
         for (int i = 0; i < parties.size(); ++i) {
             Party party = parties.get(i);
-            if (party.isGoingOn()) {
-                parties.remove(i);
-            } else {
+            if (!party.isGoingOn() && !party.isCanceled()) {
                 addAmountToNGO(party.getFinalPayment(), party.getNgo());
             }
         }

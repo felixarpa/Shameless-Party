@@ -1,5 +1,6 @@
 package felixarpa.shamelessapp.domain.model;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import felixarpa.shamelessapp.utils.DateUtil;
@@ -39,6 +40,25 @@ public class Party extends RealmObject {
 
 
     public Party() {}
+
+    public static Party mockParty(String title, String ngo, float finalPayment, boolean canceled,
+                                  int year, int month, int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+        return new Party(title, calendar.getTimeInMillis(), ngo, finalPayment, canceled);
+    }
+
+    private Party(String title, long hour, String ngo, float finalPayment, boolean canceled) {
+        this.title = title;
+        this.hour = hour;
+        this.ngo = ngo;
+        this.finalPayment = finalPayment;
+        this.canceled = canceled;
+        this.latitude = 4.1375;
+        this.longitude = 16.3928113;
+        this.moneyAmount = finalPayment;
+        this.minutes = 1;
+    }
 
     public Party(String title, long hour, float moneyAmount, int minutes, String ngo,
                  double latitude, double longitude) {
