@@ -15,12 +15,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import felixarpa.shamelessapp.R;
+import felixarpa.shamelessapp.domain.controller.exception.NoSuchPartyGoingOnException;
+import felixarpa.shamelessapp.domain.data.PartyControllerImpl;
 import felixarpa.shamelessapp.presentation.view.CoolImageFlipper;
 
 
 /*
 
 This code is from Proyecto Jedi: https://github.com/felixarpa/ProyectoJedi
+by felixarpa
+It was my first Android App.
 
  */
 
@@ -378,7 +382,9 @@ public class Memory6x6 extends AppCompatActivity {
     }
 
     private void gameWin() {
-
+        try {
+            PartyControllerImpl.getInstance().cancelParty();
+        } catch (NoSuchPartyGoingOnException ignored) {}
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
     }

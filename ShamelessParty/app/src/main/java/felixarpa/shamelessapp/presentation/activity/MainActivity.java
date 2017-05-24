@@ -163,26 +163,66 @@ public class MainActivity extends ShamelessActivity implements
     // region Party Fragment
     @Override
     public void tryToCancel() {
-        try {
-            PartyControllerImpl.getInstance().cancelParty();
-            stopLocationService();
-            fragment = new PlusOneFragment();
-            replace();
-        } catch (NoSuchPartyGoingOnException e) {
-            Log.wtf("try to cancel", "NoSuchPartyGoingOnException: " + e.getMessage());
-        }
+        new AlertDialog.Builder(this)
+                .setTitle("Are you sure you want to cancel this party?")
+                .setMessage("The world is going to end because of you")
+                .setPositiveButton(
+                        "Destroy the world",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                goToMemory();
+                            }
+                        }
+                )
+                .setNegativeButton(
+                        R.string.cancel,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }
+                )
+                .show();
+    }
+
+    private void goToMemory() {
+        startActivity(new Intent(getApplicationContext(), Memory6x6.class));
+        finish();
     }
 
     @Override
     public void finishParty() {
-        try {
-            PartyControllerImpl.getInstance().commitParty();
-            stopLocationService();
-            fragment = new PlusOneFragment();
-            replace();
-        } catch (NoSuchPartyGoingOnException e) {
-            Log.wtf("try to cancel", "NoSuchPartyGoingOnException: " + e.getMessage());
-        }
+        new AlertDialog.Builder(this)
+                .setTitle("Are you sure you want to finish this party?")
+                .setMessage("You will donate to " + party.getNgo())
+                .setPositiveButton(
+                        "Save the world",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    PartyControllerImpl.getInstance().commitParty();
+                                    stopLocationService();
+                                    fragment = new PlusOneFragment();
+                                    replace();
+                                } catch (NoSuchPartyGoingOnException e) {
+                                    Log.wtf("try to finish", "NoSuchPartyGoingOnException: " + e.getMessage());
+                                }
+                            }
+                        }
+                )
+                .setNegativeButton(
+                        R.string.cancel,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }
+                )
+                .show();
     }
 
     @Override
@@ -375,18 +415,11 @@ public class MainActivity extends ShamelessActivity implements
         } finally {
             if (input == null) {
                 builder.setMessage(message);
-                onPositiveListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(getApplicationContext(), Memory6x6.class));
-                        finish();
-                    }
-                };
             } else {
                 builder.setView(input);
+                builder.setPositiveButton(positiveStr, onPositiveListener);
             }
-            builder.setTitle(title).setPositiveButton(positiveStr, onPositiveListener)
-                    .setNegativeButton(negativeStr, onNegativeListener).show();
+            builder.setTitle(title).setNegativeButton(negativeStr, onNegativeListener).show();
         }
     }
 
